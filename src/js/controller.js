@@ -11,9 +11,9 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { async } from 'regenerator-runtime';
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipes = async function () {
   try {
@@ -23,10 +23,10 @@ const controlRecipes = async function () {
     recipeView.renderSpinner();
 
     // 0) Update results view to mark selected search result
-    bookmarksView.update(model.state.bookmarks);
+    resultsView.update(model.getSearchResultsPage());
 
     // 1. Updating bookmarks view
-    resultsView.update(model.getSearchResultsPage());
+    bookmarksView.update(model.state.bookmarks);
 
     // 2. Loading Recipe
     await model.loadRecipe(id);
@@ -107,6 +107,12 @@ const controlAddRecipe = async function (newRecipe) {
 
     // Success message
     addRecipeView.renderMessage();
+
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change ID in URL
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     // Close form window
     setTimeout(function () {
