@@ -122,6 +122,7 @@ const controlAddRecipe = async function (newRecipe) {
     console.error('WOOHOO', err);
     addRecipeView.renderError(err.message);
   }
+  location.reload();
 };
 
 const init = function () {
